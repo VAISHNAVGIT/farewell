@@ -152,6 +152,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const currentQuery = rawQuery.toLowerCase().trim();
             const listToRender = currentQuery ? students.filter(s => s.name.toLowerCase().includes(currentQuery) || s.tag.toLowerCase().includes(currentQuery)) : students;
             renderStudents(listToRender);
+
+            // Live update Top 10 if modal is open
+            if (top10Modal && !top10Modal.classList.contains("hidden")) {
+                renderTop10();
+            }
         });
 
         // Sync main question from Firebase
@@ -214,7 +219,6 @@ function renderStudents(list) {
                 <img src="${student.img}" alt="${student.name}" loading="lazy">
             </div>
             <h3 class="student-name">${student.name}</h3>
-            <p class="student-tag">${student.tag}</p>
             <button class="${btnClass}" data-id="${student.id}" onclick="handleVote(${student.id})">
                 ${btnText} <span class="vote-count">(${student.votes})</span>
             </button>
@@ -318,8 +322,17 @@ top10Modal.addEventListener("click", (e) => {
 
 function renderTop10() {
     rankingList.innerHTML = "";
-    // Sort by votes descending, take top 10
-    const sortedList = [...students].sort((a, b) => b.votes - a.votes).slice(0, 10);
+    
+    // Filter anyone with 0 votes, sort by votes descending, take top 10
+    const sortedList = [...students]
+        .filter(s => s.votes > 0)
+        .sort((a, b) => b.votes - a.votes)
+        .slice(0, 10);
+
+    if (sortedList.length === 0) {
+        rankingList.innerHTML = "<p style='text-align: center; padding: 20px; font-weight: bold; color: #555;'>No votes cast yet! Be the first to vote. 💖</p>";
+        return;
+    }
 
     sortedList.forEach((student, index) => {
         const item = document.createElement("div");
@@ -391,3 +404,104 @@ function generateParticles() {
         particlesContainer.appendChild(particle);
     }
 }
+
+// --- ECE Section Animations ---
+document.addEventListener("DOMContentLoaded", () => {
+    // ECE Section Intersection Observer
+    const eceSection = document.querySelector('.ece-farewell-section');
+    const typingTextElement = document.getElementById('ece-typing-text');
+    const hiddenTextElement = document.getElementById('ece-hidden-text');
+    const fullText = "four years of circuits, signals, laughter, and lifelong bonds. 🌸";
+    let isTypingStarted = false;
+
+    if (eceSection && typingTextElement) {
+        // Hide fallback text
+        if (hiddenTextElement) hiddenTextElement.style.display = 'none';
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Start typing text if not already started
+                    if (!isTypingStarted) {
+                        isTypingStarted = true;
+                        typeText(typingTextElement, fullText, 0);
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        observer.observe(eceSection);
+    }
+    
+    function typeText(element, text, index) {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            setTimeout(() => {
+                typeText(element, text, index + 1);
+            }, 60); // typing speed
+        } else {
+            // Typing done, remove cursor effect
+            element.classList.remove('typing-text');
+        }
+    }
+
+    // Parallax background effect
+    window.addEventListener('scroll', () => {
+        const parallaxBg = document.getElementById('parallax-bg');
+        if (parallaxBg && isTypingStarted) {
+            const scrolled = window.scrollY;
+            parallaxBg.style.transform = `translateY(${scrolled * 0.15}px)`;
+        }
+    });
+
+    // Sparkle Cursor Effect
+    document.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.8) { // Create sparkle on 20% of mouse moves
+            createSparkle(e.clientX, e.clientY);
+        }
+    });
+
+    function createSparkle(x, y) {
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle-particle";
+        // Slightly random offset around cursor
+        sparkle.style.left = (x + (Math.random() * 10 - 5)) + "px";
+        sparkle.style.top = (y + (Math.random() * 10 - 5)) + "px";
+        document.body.appendChild(sparkle);
+        
+        // Remove after animation completes
+        setTimeout(() => {
+            sparkle.remove();
+        }, 1000);
+    }
+
+    // Background Music Toggle
+    const musicBtn = document.getElementById('music-btn');
+    const bgMusic = document.getElementById('bg-music');
+    let isMusicPlaying = false;
+
+    if (musicBtn && bgMusic) {
+        bgMusic.volume = 0.4; // Soft volume
+        
+        // Attempt to auto play
+        bgMusic.play().then(() => {
+            musicBtn.classList.add('playing');
+            isMusicPlaying = true;
+        }).catch(() => {
+            console.log("Autoplay blocked by browser. User must click the play button.");
+        });
+
+        musicBtn.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+                isMusicPlaying = false;
+            } else {
+                bgMusic.play().catch(e => console.log("Audio play failed, user interaction may be required:", e));
+                musicBtn.classList.add('playing');
+                isMusicPlaying = true;
+            }
+        });
+    }
+});

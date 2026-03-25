@@ -26,6 +26,13 @@
             <div class="badge-2k26">✨ CLASS OF 2K26 ✨</div>
             <h1 class="hero-title">Forever in Our Hearts 💖</h1>
             <p class="hero-subtitle">Memories fade, but the moments stay with us forever...</p>
+
+            <!-- CTA Action -->
+            <div class="cta-container">
+                <button id="go-to-game-btn" class="glowing-btn">
+                    <span>Go to Farewell Game 🎮</span>
+                </button>
+            </div>
         </div>
 
         <!-- Memories Section -->
@@ -53,12 +60,49 @@
                 </div>
             </div>
         </div>
-        <!-- CTA Action -->
-        <div class="cta-container">
-            <button id="go-to-game-btn" class="glowing-btn">
-                <span>Go to Farewell Game 🎮</span>
-            </button>
+        <!-- ECE Department Farewell Section -->
+        <div class="ece-farewell-container">
+            <!-- Top Wave -->
+            <div class="ece-wave">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path
+                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0Z"
+                        class="wave-shape"></path>
+                </svg>
+            </div>
+
+            <div class="ece-farewell-section fade-in-section">
+                <!-- Floating Elements -->
+                <div class="parallax-bg" id="parallax-bg"></div>
+                <div class="floating-icons">
+                    <span class="float-icon icon-1">⚡</span>
+                    <span class="float-icon icon-2">💖</span>
+                    <span class="float-icon icon-3">✨</span>
+                    <span class="float-icon icon-4">📡</span>
+                    <span class="float-icon icon-5">🌟</span>
+                </div>
+
+                <div class="ece-content glass-panel">
+                    <h2 class="ece-title">Electronics & Communication</h2>
+                    <h3 class="ece-subtitle">Jyothi Engineering College (2022–2026)</h3>
+                    <div class="text-container">
+                        <p class="ece-text typing-text" id="ece-typing-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Wave -->
+            <div class="ece-wave wave-bottom">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path
+                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V120Z"
+                        class="wave-shape"></path>
+                </svg>
+            </div>
         </div>
+
+
+
     </section>
 
     <!-- GAME PAGE -->
@@ -90,6 +134,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop autoplay>
+        <source src="A Farewell Melody __ Original by Jacob's Piano - Jacob's Piano.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-btn" class="floating-btn music-btn" title="Toggle Music">🎵</button>
 
     <!-- Firebase SDK (v8 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
