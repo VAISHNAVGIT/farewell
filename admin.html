@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard 💖</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { padding: 2rem; }
+        .admin-panel { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ccc; font-family: 'Outfit'; }
+        
+        .student-list { margin-top: 2rem; }
+        .admin-student-card { display: flex; align-items: center; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .admin-student-card img { width: 40px; height: 40px; border-radius: 50%; margin-right: 15px; }
+        .admin-student-card .info { flex-grow: 1; }
+        .admin-student-card .votes { font-weight: bold; color: #ff69b4; margin-right: 15px; }
+        
+        .btn-danger { background: #ff4757; color: white; border: none; padding: 10px 20px; border-radius: 15px; cursor: pointer; font-weight: 600; font-family: 'Outfit'; }
+        .btn-danger:hover { background: #ff6b81; }
+        
+        .btn-primary { background: #1e90ff; color: white; border: none; padding: 10px 20px; border-radius: 15px; cursor: pointer; font-weight: 600; font-family: 'Outfit'; }
+        .btn-primary:hover { background: #70a1ff; }
+
+        #login-screen { text-align: center; max-width: 400px; margin: 100px auto; }
+        #admin-content { display: none; }
+    </style>
+</head>
+<body>
+    <div class="glow-bg"></div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="glass-panel">
+        <h2 class="section-title">Admin Login 🔒</h2>
+        <div class="form-group">
+            <input type="password" id="admin-pass" placeholder="Enter Password">
+        </div>
+        <button id="login-btn" class="glowing-btn" style="padding: 10px 30px; font-size: 1.2rem;">Login</button>
+        <p id="error-msg" style="color: red; margin-top: 10px; display: none;">Incorrect Password! (Hint: pookie)</p>
+    </div>
+
+    <!-- Admin Content -->
+    <div id="admin-content" class="admin-panel glass-panel">
+        <div class="admin-header">
+            <h2>⚙️ Dashboard</h2>
+            <button id="logout-btn" class="glass-btn">Logout</button>
+        </div>
+
+        <hr style="margin-bottom: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
+
+        <div class="form-group">
+            <label for="main-question">Edit Main Game Question:</label>
+            <input type="text" id="main-question" value="Who is the Ultimate Senior? 👑">
+            <button id="save-question-btn" class="btn-primary" style="margin-top: 10px;">Save Question</button>
+        </div>
+
+        <hr style="margin: 20px 0; border-top: 1px solid rgba(0,0,0,0.1);">
+
+        <div class="admin-header" style="margin-bottom: 10px;">
+            <h3>➕ Add New Senior</h3>
+        </div>
+        <div class="form-group" style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="new-name" placeholder="Name (e.g. John Doe)" style="flex: 1; min-width: 200px;">
+            <input type="text" id="new-tag" placeholder="Tagline (e.g. The Artist)" style="flex: 1; min-width: 200px;">
+            <input type="text" id="new-img" placeholder="Image URL (optional)" style="flex: 2; min-width: 250px;">
+            <button id="add-senior-btn" class="btn-primary" style="flex: 1;">Add Senior</button>
+        </div>
+
+        <hr style="margin: 20px 0; border-top: 1px solid rgba(0,0,0,0.1);">
+
+        <div class="admin-header">
+            <h3>Student Votes Management</h3>
+            <button id="reset-votes-btn" class="btn-danger">⚠️ Reset All Votes to 0</button>
+        </div>
+        
+        <div class="student-list" id="admin-student-list">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- Firebase SDK (v8 Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
